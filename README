@@ -1,0 +1,4 @@
+# Bootstrap images
+
+This repository is linked with Docker Hub at [`servobrowser/taskcluster-bootstrap`][hub].
+Other branches contain `Dockerfile`s for building “bootstrap” Docker images for Servo on Taskcluster.
