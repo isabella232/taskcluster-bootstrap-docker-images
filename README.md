@@ -3,6 +3,7 @@
 This repository is linked with Docker Hub at [`servobrowser/taskcluster-bootstrap`][hub].
 It contains `Dockerfile`s for building “bootstrap” Docker images for Servo on Taskcluster.
 
+
 ## Background
 
 Ideally, `Dockerfile`s for images used in Continuous Integration are kept
@@ -17,36 +18,31 @@ It was deemed easier, at least at first, to *not* try to build these initial ima
 and instead have them pre-built on Docker Hub.
 These images are hopefully simple enough that they don’t need to be updated often.
 
+
 ## Images
 
 Because this is easier for integrating with Docker Hub,
 each image’s `Dockerfile` is in the git branch of the corresponding name:
 
-* [`decision-task`]:
-  This image is able to clone a git repository,
-  and run a Python 3 script in it with the [`taskcluster`][tc.py] Python package available.
 
-  When [Taskcluster integration][tc-gh] is enabled in a GitHub repository,
-  it will react to some GitHub events (pushes, pull requests, …)
-  and schedule tasks based on reading [`.taskcluster.yml`] in the repository.
+### [`decision-task`]
 
-  This file contains templates for creating one or more tasks,
-  but the logic it can support is fairly limited.
-  So a common pattern is to have it only run a single initial task called a *decision task*
-  that can have complex logic based on code and data in the repository
-  to build an arbitrary [task graph].
+This image is able to clone a git repository,
+and run a Python 3 script in it with the [`taskcluster`][tc.py] Python package available.
 
-  In particular, it can schedule tasks to build Docker images
-  as well as further tasks that depend on the image-building ones
-  and run the corresponding image.
+When [Taskcluster integration][tc-gh] is enabled in a GitHub repository,
+it will react to some GitHub events (pushes, pull requests, …)
+and schedule tasks based on reading [`.taskcluster.yml`] in the repository.
 
-* [`image-builder`]:
+This file contains templates for creating one or more tasks,
+but the logic it can support is fairly limited.
+So a common pattern is to have it only run a single initial task called a *decision task*
+that can have complex logic based on code and data in the repository
+to build an arbitrary [task graph].
 
-  This image has a specific version of Docker installed.
-  It is intended to run the Docker client to build and save an image,
-  in a container that has `/var/run/docker.sock` bound to the host’s Docker daemon.
-  This is enabled by the `dind` (“docker-in-docker”) [feature] of Taskcluster’s `docker-worker`.
-
+In particular, it can schedule tasks to build Docker images
+as well as further tasks that depend on the image-building ones
+and run the corresponding image.
 
 [hub]: https://hub.docker.com/r/servobrowser/taskcluster-bootstrap/
 [firefox]: https://firefox-source-docs.mozilla.org/taskcluster/taskcluster/docker-images.html
@@ -55,6 +51,14 @@ each image’s `Dockerfile` is in the git branch of the corresponding name:
 [tc-gh]: https://docs.taskcluster.net/docs/manual/using/github
 [`.taskcluster.yml`]: https://docs.taskcluster.net/docs/reference/integrations/taskcluster-github/docs/taskcluster-yml-v1
 [task graph]: https://docs.taskcluster.net/docs/manual/using/task-graph
+
+### [`image-builder`]
+
+This image has a specific version of Docker installed.
+It is intended to run the Docker client to build and save an image,
+in a container that has `/var/run/docker.sock` bound to the host’s Docker daemon.
+This is enabled by the `dind` (“docker-in-docker”) [feature] of Taskcluster’s `docker-worker`.
+
 [`image-builder`]: https://github.com/servo/taskcluster-bootstrap-docker-images/tree/image-builder
 [feature]: https://docs.taskcluster.net/docs/reference/workers/docker-worker/docs/payload
 
@@ -99,7 +103,6 @@ we still need to go to GitHub in the repository’s settings,
 find *Integration and Services*,
 click the *Add service* button,
 and find *Docker* in the drop-down menu.
-
 
 [automated builds]: https://docs.docker.com/docker-hub/builds/
 [github integration]: https://docs.docker.com/docker-hub/github/
