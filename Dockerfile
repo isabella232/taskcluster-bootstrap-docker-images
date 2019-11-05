@@ -1,4 +1,4 @@
-FROM ubuntu:bionic-20180821@sha256:b5309340de7a9a540cf6c0cba3eabdfb9c9bc5153026d37991fd0028180fc725
+FROM ubuntu:bionic-20191029@sha256:6e9f67fa63b0323e9a1e587fd71c561ba48a034504fb804fd26fd8800039835d
 
 RUN apt-get update -q && apt-get install -qy --no-install-recommends \
         git \
